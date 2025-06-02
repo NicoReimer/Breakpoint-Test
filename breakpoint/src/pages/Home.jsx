@@ -9,6 +9,7 @@ import {
   CardMedia,
   CardContent,
 } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function Home() {
   return (
@@ -110,9 +111,14 @@ export default function Home() {
               <Typography variant="h5" component="div">
                 Minecraft
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                19k Views
-              </Typography>
+              <Stack direction="row" spacing={0.5} alignItems="center">
+                <VisibilityIcon
+                  sx={{ fontSize: 16, color: "text.secondary" }}
+                />
+                <Typography variant="body2" color="text.secondary">
+                  19k
+                </Typography>
+              </Stack>
             </Stack>
           </CardContent>
         </Card>
@@ -134,9 +140,14 @@ export default function Home() {
               <Typography variant="h5" component="div">
                 Terraria
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                19k Views
-              </Typography>
+              <Stack direction="row" spacing={0.5} alignItems="center">
+                <VisibilityIcon
+                  sx={{ fontSize: 16, color: "text.secondary" }}
+                />
+                <Typography variant="body2" color="text.secondary">
+                  19k
+                </Typography>
+              </Stack>
             </Stack>
           </CardContent>
         </Card>
@@ -158,9 +169,14 @@ export default function Home() {
               <Typography variant="h5" component="div">
                 Marvel
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                19k Views
-              </Typography>
+              <Stack direction="row" spacing={0.5} alignItems="center">
+                <VisibilityIcon
+                  sx={{ fontSize: 16, color: "text.secondary" }}
+                />
+                <Typography variant="body2" color="text.secondary">
+                  19k
+                </Typography>
+              </Stack>
             </Stack>
           </CardContent>
         </Card>

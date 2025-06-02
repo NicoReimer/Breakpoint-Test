@@ -67,7 +67,7 @@ export default function Navbar() {
             <CastleIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ mr: 2 }}>
-            Bruchlande
+            Breakpoint
           </Typography>
         </Box>
 
@@ -105,6 +105,18 @@ export default function Navbar() {
               ),
             }}
           />
+
+          <Button
+            color="inherit"
+            href="/"
+            sx={{
+              border: 1,
+              borderColor: "primary.main",
+              px: 1.5,
+            }}
+          >
+            + Start a Wiki
+          </Button>
 
           {!user ? (
             <Button color="inherit" href="http://localhost:3001/auth/discord">
