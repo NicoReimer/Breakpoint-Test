@@ -61,7 +61,7 @@ export default function Navbar() {
             Quests
           </Button>
           {!user ? (
-            <Button color="inherit" href="http://localhost:3001/auth/discord">
+            <Button color="inherit" href={`${import.meta.env.VITE_API_URL}/auth/discord`}>
               Login mit Discord
             </Button>
           ) : (

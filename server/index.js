@@ -4,6 +4,7 @@ const session = require('express-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
 const cors = require('cors');
+const articleRoutes = require('./routes/articles');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/api/articles', articleRoutes);
 
 // Discord OAuth Setup
 passport.serializeUser((user, done) => done(null, user));
