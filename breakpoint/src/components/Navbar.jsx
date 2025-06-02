@@ -36,13 +36,26 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-  window.location.href = `${import.meta.env.VITE_API_URL}/auth/logout`;
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/logout`;
   };
 
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-    // TODO: Implement search logic here
-    console.log("Searching for:", event.target.value);
+  const handleSearch = async (event) => {
+    const value = event.target.value;
+    setSearchQuery(value);
+
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/articles`,
+        {
+          params: { search: value },
+          withCredentials: true,
+        }
+      );
+
+      console.log("Suchergebnisse:", res.data); // Hier kannst du auch ein State für Ergebnisse verwenden
+    } catch (err) {
+      console.error("Fehler bei der Suche:", err);
+    }
   };
 
   return (
@@ -86,7 +99,12 @@ export default function Navbar() {
             size="small"
             placeholder="Suchen..."
             value={searchQuery}
-            onChange={handleSearch}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+              }
+            }}
             sx={{
               width: "300px",
               backgroundColor: "background.paper",
@@ -119,7 +137,7 @@ export default function Navbar() {
           </Button>
 
           {!user ? (
-            <Button color="inherit" href={`${import.meta.env.VITE_API_URL}/auth/discord`}>
+            <Button color="inherit" href="http://localhost:3001/auth/discord">
               Login mit Discord
             </Button>
           ) : (

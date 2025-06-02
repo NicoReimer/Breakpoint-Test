@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages//Home";
 import Settings from "./pages/Settings";
+import SearchResults from "./pages/SearchResults";
 import {
   Box,
   ThemeProvider,
@@ -38,6 +39,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/search" element={<SearchResults />} />
         </Routes>
       </Box>
     </ThemeProvider>
