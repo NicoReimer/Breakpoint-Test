@@ -36,7 +36,10 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{ border: 2, borderRadius: 1, borderColor: "primary.main" }}
+    >
       <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
         <IconButton
           size="large"
