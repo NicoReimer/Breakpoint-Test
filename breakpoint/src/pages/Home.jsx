@@ -1,11 +1,16 @@
-import { Container, Typography } from "@mui/material";
+import { Box, Typography, Container, Paper } from '@mui/material';
 
-function Home() {
+export default function Home() {
   return (
-    <Container maxWidth="sm" style={{ textAlign: "center", marginTop: "50px" }}>
-      <Typography variant="h4">Willkommen auf der Startseite 🎉</Typography>
+    <Container sx={{ mt: 6 }}>
+      <Paper elevation={3} sx={{ p: 5, textAlign: 'center' }}>
+        <Typography variant="h3" gutterBottom>
+          Willkommen auf der Startseite 🎉
+        </Typography>
+        <Typography variant="body1">
+          Fick dich Nico.
+        </Typography>
+      </Paper>
     </Container>
   );
 }
-
-export default Home;
