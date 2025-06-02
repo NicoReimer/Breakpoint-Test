@@ -10,14 +10,18 @@ import {
   Menu,
   MenuItem,
   Stack,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CastleIcon from "@mui/icons-material/Castle";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function Navbar() {
   const { user } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const handleAvatarClick = (event) => {
@@ -35,22 +39,39 @@ export default function Navbar() {
     window.location.href = "http://localhost:3001/auth/logout";
   };
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+    // TODO: Implement search logic here
+    console.log("Searching for:", event.target.value);
+  };
+
   return (
-    <AppBar position="static">
-      <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="logo"
-          href="/"
-        >
-          <CastleIcon />
-        </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Bruchlande
-        </Typography>
-        <Stack direction="row" spacing={2}>
+    <AppBar
+      position="fixed"
+      sx={{
+        border: 2,
+        borderRadius: 1,
+        borderColor: "primary.main",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+      }}
+    >
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="logo"
+            href="/"
+          >
+            <CastleIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ mr: 2 }}>
+            Breakpoint
+          </Typography>
+        </Box>
+
+        <Stack direction="row" spacing={2} alignItems="center">
           <Button color="inherit" href="/">
             CharSheet
           </Button>
@@ -60,6 +81,43 @@ export default function Navbar() {
           <Button color="inherit" href="/">
             Quests
           </Button>
+
+          <TextField
+            size="small"
+            placeholder="Suchen..."
+            value={searchQuery}
+            onChange={handleSearch}
+            sx={{
+              width: "300px",
+              backgroundColor: "background.paper",
+              borderRadius: 1,
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "primary.main",
+                },
+              },
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <Button
+            color="inherit"
+            href="/"
+            sx={{
+              border: 1,
+              borderColor: "primary.main",
+              px: 1.5,
+            }}
+          >
+            + Start a Wiki
+          </Button>
+
           {!user ? (
             <Button color="inherit" href={`${import.meta.env.VITE_API_URL}/auth/discord`}>
               Login mit Discord
