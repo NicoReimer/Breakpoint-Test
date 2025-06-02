@@ -36,7 +36,7 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    window.location.href = "http://localhost:3001/auth/logout";
+  window.location.href = `${import.meta.env.VITE_API_URL}/auth/logout`;
   };
 
   const handleSearch = (event) => {
