@@ -42,7 +42,7 @@ export default function NewWiki() {
     // navigate('/'); // Redirect to home after creation
   };
 
-  if (user) {
+  if (!user) {
     return (
       <Container sx={{ mt: 4 }}>
         <Typography>Bitte logge dich ein, um ein Wiki zu erstellen.</Typography>

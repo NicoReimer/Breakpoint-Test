@@ -126,7 +126,7 @@ export default function Navbar() {
 
           <Button
             color="inherit"
-            href="/"
+            href="/newWiki"
             sx={{
               border: 1,
               borderColor: "primary.main",
