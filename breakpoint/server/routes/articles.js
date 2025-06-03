@@ -1,3 +1,4 @@
+// server/routes/articles.js
 const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
@@ -31,6 +32,42 @@ router.get("/", (req, res) => {
       }
     );
   }
+});
+
+// Artikel + erste Seite abrufen
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+
+  const articleSql = "SELECT * FROM articles WHERE id = ?";
+  db.query(articleSql, [id], (err, articleResult) => {
+    if (err) {
+      console.error("❌ Fehler beim Abrufen des Artikels:", err);
+      return res
+        .status(500)
+        .json({ error: "Fehler beim Abrufen des Artikels." });
+    }
+
+    if (articleResult.length === 0) {
+      return res.status(404).json({ error: "Artikel nicht gefunden." });
+    }
+
+    const article = articleResult[0];
+
+    const pageSql =
+      "SELECT * FROM pages WHERE wikiID = ? ORDER BY tocID ASC LIMIT 1";
+    db.query(pageSql, [id], (pageErr, pageResult) => {
+      if (pageErr) {
+        console.error("❌ Fehler beim Abrufen der Seite:", pageErr);
+        return res
+          .status(500)
+          .json({ error: "Fehler beim Abrufen der Seite." });
+      }
+
+      article.firstPageTitle =
+        pageResult.length > 0 ? pageResult[0].title : null;
+      res.json(article);
+    });
+  });
 });
 
 // Artikel erstellen
