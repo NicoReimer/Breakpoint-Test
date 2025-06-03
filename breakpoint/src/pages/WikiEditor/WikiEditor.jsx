@@ -32,11 +32,9 @@ export default function WikiEditor() {
         setWikiData(data);
         setPages([
           {
-            id: data.id,
-            wikiId: data.id,
-            tocId: "0",
+            wikiId: data.wikiID,
+            tocId: data.tocID,
             title: data.title,
-            content: data.content,
           },
         ]);
         setLoading(false);
