@@ -88,8 +88,8 @@ export default function Home() {
           }}
         >
           <Stack direction="column" spacing={1}>
-            <Typography variant="h4">📚</Typography>
-            <Typography variant="h5">Books</Typography>
+            <Typography variant="h4">🎥</Typography>
+            <Typography variant="h5">Movies</Typography>
           </Stack>
         </Paper>
         <Paper
@@ -102,8 +102,8 @@ export default function Home() {
           }}
         >
           <Stack direction="column" spacing={1}>
-            <Typography variant="h4">🎨</Typography>
-            <Typography variant="h5">Art</Typography>
+            <Typography variant="h4">📚</Typography>
+            <Typography variant="h5">Books</Typography>
           </Stack>
         </Paper>
         <Paper
