@@ -22,8 +22,8 @@ export default function NewWiki() {
 
   const categories = [
     { value: "games", label: "🎮 Games" },
+    { value: "art", label: "🎥 Movies" },
     { value: "books", label: "📚 Books" },
-    { value: "art", label: "🎨 Art" },
     { value: "music", label: "🎵 Music" },
   ];
 
