@@ -5,13 +5,48 @@ import {
   Paper,
   Stack,
   Divider,
-  Card,
-  CardMedia,
-  CardContent,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import WikiCard from "../components/WikiCard";
 
 export default function Home() {
+  const popularWikis = [
+    {
+      title: "Minecraft",
+      image:
+        "https://www.kleinmachnow.de/media/custom/999_12711_1_g.JPG?1637243080",
+      views: "19k",
+    },
+    {
+      title: "Terraria",
+      image: "https://photos99.ru/photo/28/63/286325483/286325483_2048.jpg",
+      views: "19k",
+    },
+    {
+      title: "Marvel",
+      image:
+        "https://storage.de.cloud.ovh.net/v1/AUTH_97856089b0cd40beace6493b15fd316e/teachinomedia/ai_images/quiz-game-geography-sek1-fluesse-rhein-ursprung-und-verlauf.jpeg",
+      views: "19k",
+    },
+    {
+      title: "Marvel",
+      image:
+        "https://storage.de.cloud.ovh.net/v1/AUTH_97856089b0cd40beace6493b15fd316e/teachinomedia/ai_images/quiz-game-geography-sek1-fluesse-rhein-ursprung-und-verlauf.jpeg",
+      views: "19k",
+    },
+    {
+      title: "Marvel",
+      image:
+        "https://storage.de.cloud.ovh.net/v1/AUTH_97856089b0cd40beace6493b15fd316e/teachinomedia/ai_images/quiz-game-geography-sek1-fluesse-rhein-ursprung-und-verlauf.jpeg",
+      views: "19k",
+    },
+    {
+      title: "Marvel",
+      image:
+        "https://storage.de.cloud.ovh.net/v1/AUTH_97856089b0cd40beace6493b15fd316e/teachinomedia/ai_images/quiz-game-geography-sek1-fluesse-rhein-ursprung-und-verlauf.jpeg",
+      views: "19k",
+    },
+  ];
+
   return (
     <Container sx={{ mt: 6 }}>
       <Paper elevation={3} sx={{ p: 5, textAlign: "center" }}>
@@ -88,99 +123,24 @@ export default function Home() {
       </Stack>
       <Divider sx={{ mt: 8, mb: 6 }} />
       <Typography variant="h3">Beliebte Wikies</Typography>
-      <Stack
-        direction="row"
-        spacing={3}
-        sx={{ mt: 2, mb: 8, flexWrap: "wrap" }}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)", // Creates 4 equal columns
+          gap: 3,
+          mt: 2,
+          mb: 8,
+        }}
       >
-        <Card sx={{ width: 345, borderRadius: 2 }}>
-          <CardMedia
-            sx={{
-              height: 90,
-            }}
-            image="https://www.kleinmachnow.de/media/custom/999_12711_1_g.JPG?1637243080"
-            title="Sample Image"
+        {popularWikis.map((wiki, index) => (
+          <WikiCard
+            key={index}
+            title={wiki.title}
+            image={wiki.image}
+            views={wiki.views}
           />
-          <CardContent>
-            <Stack
-              direction="row"
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              sx={{ mb: -1 }}
-            >
-              <Typography variant="h5" component="div">
-                Minecraft
-              </Typography>
-              <Stack direction="row" spacing={0.5} alignItems="center">
-                <VisibilityIcon
-                  sx={{ fontSize: 16, color: "text.secondary" }}
-                />
-                <Typography variant="body2" color="text.secondary">
-                  19k
-                </Typography>
-              </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Card sx={{ width: 345, borderRadius: 2 }}>
-          <CardMedia
-            sx={{
-              height: 90,
-            }}
-            image="https://photos99.ru/photo/28/63/286325483/286325483_2048.jpg"
-            title="Sample Image"
-          />
-          <CardContent>
-            <Stack
-              direction="row"
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              sx={{ mb: -1 }}
-            >
-              <Typography variant="h5" component="div">
-                Terraria
-              </Typography>
-              <Stack direction="row" spacing={0.5} alignItems="center">
-                <VisibilityIcon
-                  sx={{ fontSize: 16, color: "text.secondary" }}
-                />
-                <Typography variant="body2" color="text.secondary">
-                  19k
-                </Typography>
-              </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Card sx={{ width: 345, borderRadius: 2 }}>
-          <CardMedia
-            sx={{
-              height: 90,
-            }}
-            image="https://storage.de.cloud.ovh.net/v1/AUTH_97856089b0cd40beace6493b15fd316e/teachinomedia/ai_images/quiz-game-geography-sek1-fluesse-rhein-ursprung-und-verlauf.jpeg"
-            title="Sample Image"
-          />
-          <CardContent>
-            <Stack
-              direction="row"
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              sx={{ mb: -1 }}
-            >
-              <Typography variant="h5" component="div">
-                Marvel
-              </Typography>
-              <Stack direction="row" spacing={0.5} alignItems="center">
-                <VisibilityIcon
-                  sx={{ fontSize: 16, color: "text.secondary" }}
-                />
-                <Typography variant="body2" color="text.secondary">
-                  19k
-                </Typography>
-              </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
-      </Stack>
+        ))}
+      </Box>
     </Container>
   );
 }

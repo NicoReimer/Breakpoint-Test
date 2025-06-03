@@ -16,6 +16,7 @@
     "express-session": "^1.18.1",
     "mysql2": "^3.14.1",
     "passport": "^0.7.0",
-    "passport-discord": "^0.1.4"
+    "passport-discord": "^0.1.4",
+    "pm2": "^6.0.6"
   }
 }

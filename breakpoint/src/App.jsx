@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages//Home";
 import Settings from "./pages/Settings";
 import SearchResults from "./pages/SearchResults";
+import NewWiki from "./pages/NewWiki";
 import {
   Box,
   ThemeProvider,
@@ -40,6 +41,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/newWiki" element={<NewWiki />} />
         </Routes>
       </Box>
     </ThemeProvider>
