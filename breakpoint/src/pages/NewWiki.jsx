@@ -35,11 +35,37 @@ export default function NewWiki() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // TODO: Implement API call to create new wiki
-    console.log("Creating new wiki:", formData);
-    // navigate('/'); // Redirect to home after creation
+
+    try {
+      const response = await fetch("http://localhost:3001/api/articles", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          title: formData.title,
+          author_id: user.id,
+          category: formData.category,
+          description: formData.description,
+          // image_url: undefined
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Fehler beim Erstellen:", error);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Artikel erstellt mit ID:", data.id);
+      navigate("/");
+    } catch (error) {
+      console.error("Fehler beim Senden:", error);
+    }
   };
 
   if (!user) {
