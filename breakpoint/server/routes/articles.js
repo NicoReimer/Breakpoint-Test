@@ -54,7 +54,19 @@ router.post("/", (req, res) => {
     [title, author_id, category, finalImageUrl, description],
     (err, result) => {
       if (err) return res.status(500).json({ error: err });
-      res.status(201).json({ id: result.insertId });
+
+      const newWikiId = result.insertId;
+
+      const pageSql =
+        "INSERT INTO pages (wikiID, tocID, title) VALUES (?, 0, 'Home')";
+      db.query(pageSql, [newWikiId], (pageErr) => {
+        if (pageErr) {
+          console.error("❌ Fehler beim Erstellen der Startseite:", pageErr);
+          return res.status(500).json({ error: pageErr });
+        }
+
+        res.status(201).json({ id: result.insertId });
+      });
     }
   );
 });
