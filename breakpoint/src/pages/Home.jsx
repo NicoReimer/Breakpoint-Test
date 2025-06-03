@@ -7,6 +7,7 @@ import {
   Divider,
 } from "@mui/material";
 import WikiCard from "../components/WikiCard";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const popularWikis = [
@@ -46,6 +47,7 @@ export default function Home() {
       views: "19k",
     },
   ];
+  const navigate = useNavigate();
 
   return (
     <Container sx={{ mt: 6 }}>
@@ -53,7 +55,7 @@ export default function Home() {
         <Typography variant="h3" gutterBottom>
           Willkommen auf der Startseite 🎉
         </Typography>
-        <Typography variant="body1">Fick dich Dennis.</Typography>
+        <Typography variant="body1">Breakpoint.</Typography>
       </Paper>
 
       <Typography variant="h3" sx={{ mt: 8, mb: 4, textAlign: "center" }}>
@@ -66,7 +68,11 @@ export default function Home() {
       >
         <Paper
           elevation={3}
+          onClick={() => {
+            navigate("/category/Games");
+          }}
           sx={{
+            cursor: "pointer",
             p: 2,
             width: "200px",
             textAlign: "center",
@@ -80,7 +86,11 @@ export default function Home() {
         </Paper>
         <Paper
           elevation={3}
+          onClick={() => {
+            navigate("/category/Movies");
+          }}
           sx={{
+            cursor: "pointer",
             p: 2,
             width: "200px",
             textAlign: "center",
@@ -94,7 +104,11 @@ export default function Home() {
         </Paper>
         <Paper
           elevation={3}
+          onClick={() => {
+            navigate("/category/Books");
+          }}
           sx={{
+            cursor: "pointer",
             p: 2,
             width: "200px",
             textAlign: "center",
@@ -108,7 +122,11 @@ export default function Home() {
         </Paper>
         <Paper
           elevation={3}
+          onClick={() => {
+            navigate("/category/Music");
+          }}
           sx={{
+            cursor: "pointer",
             p: 2,
             width: "200px",
             textAlign: "center",

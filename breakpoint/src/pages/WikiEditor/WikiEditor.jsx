@@ -53,6 +53,7 @@ export default function WikiEditor() {
   const fullTitle = wikiData.firstPageTitle
     ? `${wikiData.title} - ${wikiData.firstPageTitle}`
     : wikiData.title;
+
   const components = [
     { id: "text", icon: <TextFieldsIcon />, label: "Textfeld" },
     { id: "image", icon: <ImageIcon />, label: "Bild" },

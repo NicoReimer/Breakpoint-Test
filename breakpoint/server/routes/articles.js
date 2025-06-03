@@ -74,6 +74,19 @@ router.get("/:id", (req, res) => {
   });
 });
 
+router.get("/category/:category", (req, res) => {
+  const { category } = req.params;
+  const sql =
+    "SELECT title, image_url AS image, views FROM articles WHERE category = ?";
+  db.query(sql, [category], (err, results) => {
+    if (err) {
+      console.error("❌ Fehler beim Abrufen nach Kategorie:", err);
+      return res.status(500).json({ error: err });
+    }
+    res.json(results);
+  });
+});
+
 // Artikel erstellen
 
 const defaultImage = require("./defaultImage");
