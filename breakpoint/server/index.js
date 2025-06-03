@@ -7,11 +7,18 @@ const cors = require("cors");
 const articleRoutes = require("./routes/articles");
 
 const app = express();
+const allowedOrigins = ["http://localhost:5173", "http://162.55.188.38:5173"];
 
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
@@ -72,6 +79,6 @@ app.get("/auth/logout", (req, res) => {
 });
 
 // Server starten
-app.listen(3001, () => {
-  console.log("✅ Auth-Server läuft auf http://localhost:3001");
+app.listen(3001, "0.0.0.0", () => {
+  console.log("✅ Auth-Server läuft auf http://0.0.0.0:3001");
 });
