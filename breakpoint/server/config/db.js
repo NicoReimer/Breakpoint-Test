@@ -1,4 +1,4 @@
-const mysql = require("mysql2/promise");
+const mysql = require("mysql2");
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -10,8 +10,12 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-pool
-  .getConnection()
-  .then(() => console.log("✅ Verbunden"))
-  .catch((err) => console.error("❌ Fehler bei DB-Verbindung:", err));
+pool.getConnection((err, conn) => {
+  if (err) {
+    console.error("❌ Fehler bei DB-Verbindung:", err);
+  } else {
+    console.log("✅ Verbunden");
+  }
+});
+
 module.exports = pool;
