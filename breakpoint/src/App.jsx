@@ -45,7 +45,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/newWiki" element={<NewWiki />} />
-          <Route path="/wiki/:id/edit" element={<WikiEditor />} />
+          <Route path="/wiki/:id/edit/:tocId" element={<WikiEditor />} />
           <Route path="/category/:category" element={<CategoryPage />} />
           <Route path="/wiki/:id" element={<WikiView />} />
           <Route path="*" element={<div>404 – Seite nicht gefunden</div>} />

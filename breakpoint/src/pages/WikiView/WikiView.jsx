@@ -14,7 +14,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import TableOfContents from "./components/TableOfContents/TableOfContents";
 
 export default function WikiView() {
-  const { id } = useParams(); // /wiki/:id
+  const { id, tocId } = useParams();
   const navigate = useNavigate();
   const [wiki, setWiki] = useState(null);
   const [pages, setPages] = useState([]);
@@ -24,14 +24,32 @@ export default function WikiView() {
   useEffect(() => {
     fetch(`http://localhost:3001/api/articles/${id}`)
       .then((res) => res.json())
-      .then((data) => {
-        setWiki(data);
-      });
+      .then((data) => setWiki(data));
 
     fetch(`http://localhost:3001/api/pages/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        setPages(data);
+        const parsedPages = data.map((page) => {
+          let parsedContent = { content: [], sections: [] };
+
+          try {
+            if (page.content) {
+              parsedContent = JSON.parse(page.content);
+            }
+          } catch (err) {
+            console.error(
+              `❌ Fehler beim Parsen der Seite "${page.title}"`,
+              err
+            );
+          }
+
+          return {
+            ...page,
+            parsedContent,
+          };
+        });
+
+        setPages(parsedPages);
         setLoading(false);
       })
       .catch((err) => {
@@ -39,6 +57,82 @@ export default function WikiView() {
         setLoading(false);
       });
   }, [id]);
+
+  const renderComponent = (item) => {
+    switch (item.type) {
+      case "text":
+        return (
+          <Typography sx={{ mb: 2, whiteSpace: "pre-wrap" }}>
+            {item.content}
+          </Typography>
+        );
+      case "image":
+        return (
+          <Box sx={{ mb: 2 }}>
+            <img
+              src={typeof item.content === "string" ? item.content : ""}
+              alt="Bild"
+              style={{ maxWidth: "100%", borderRadius: "8px" }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "";
+                e.target.alt = "❌ Ungültige Bild-URL";
+              }}
+            />
+            {typeof item.content !== "string" && (
+              <Typography sx={{ color: "red" }}>
+                ❌ Ungültige Bild-URL
+              </Typography>
+            )}
+          </Box>
+        );
+
+      case "table":
+        try {
+          const rows = Array.isArray(item.content)
+            ? item.content
+            : item.content?.rows
+            ? item.content.cells
+            : JSON.parse(item.content);
+          return (
+            <Box
+              component="table"
+              sx={{
+                width: "100%",
+                mb: 2,
+                borderCollapse: "collapse",
+                backgroundColor: "#333",
+                borderRadius: "8px",
+                overflow: "hidden",
+              }}
+            >
+              <tbody>
+                {rows.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {row.map((cell, cellIndex) => (
+                      <td
+                        key={cellIndex}
+                        style={{
+                          border: "1px solid #555",
+                          padding: "8px",
+                          color: "#fff",
+                        }}
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </Box>
+          );
+        } catch (e) {
+          return <Typography>❌ Fehlerhafte Tabelle</Typography>;
+        }
+      default:
+        return null;
+    }
+  };
 
   if (loading) return <div>Lade Wiki...</div>;
   if (!wiki) return <div>Fehler beim Laden des Wikis</div>;
@@ -48,7 +142,13 @@ export default function WikiView() {
       {/* Bearbeiten-Button */}
       <Tooltip title="Wiki bearbeiten">
         <IconButton
-          onClick={() => navigate(`/wiki/${id}/edit`)}
+          onClick={() => {
+            if (pages.length > 0) {
+              navigate(`/wiki/${id}/edit/${pages[0].tocID}`);
+            } else {
+              console.error("❌ Keine Seiten vorhanden");
+            }
+          }}
           sx={{
             position: "fixed",
             top: 80,
@@ -88,22 +188,28 @@ export default function WikiView() {
           {wiki.title}
         </Typography>
 
-        {pages.map((page, index) => (
-          <Box key={index} sx={{ mt: 4 }}>
-            <Typography variant="h4" gutterBottom id={`section-${index}`}>
+        {pages.map((page) => (
+          <Box key={page.tocID} sx={{ mt: 6 }}>
+            <Typography variant="h4" gutterBottom>
               {page.title}
             </Typography>
             <Divider sx={{ mb: 2 }} />
-            <Box
-              sx={{
-                backgroundColor: "#424242",
-                p: 2,
-                borderRadius: 2,
-                whiteSpace: "pre-wrap",
-              }}
-            >
-              {page.content || "Diese Seite ist noch leer."}
-            </Box>
+
+            {page.parsedContent.content?.map((item) => (
+              <div key={item.id}>{renderComponent(item)}</div>
+            ))}
+
+            {page.parsedContent.sections?.map((section) => (
+              <Box key={section.id} sx={{ mt: 4 }}>
+                <Typography variant="h5" gutterBottom>
+                  {section.title}
+                </Typography>
+                <Divider sx={{ mb: 1 }} />
+                {section.content.map((item) => (
+                  <div key={item.id}>{renderComponent(item)}</div>
+                ))}
+              </Box>
+            ))}
           </Box>
         ))}
       </Container>

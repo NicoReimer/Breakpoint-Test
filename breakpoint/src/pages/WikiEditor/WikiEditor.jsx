@@ -7,6 +7,7 @@ import TocIcon from "@mui/icons-material/Toc";
 import TextFieldsIcon from "@mui/icons-material/TextFields";
 import ImageIcon from "@mui/icons-material/Image";
 import TableChartIcon from "@mui/icons-material/TableChart";
+import SaveIcon from "@mui/icons-material/Save";
 
 import ComponentDrawer from "./components/ComponentDrawer/ComponentDrawer";
 import TableOfContents from "./components/TableOfContents/TableOfContents";
@@ -16,7 +17,7 @@ import TableComponent from "./components/DraggableComponents/TableComponent";
 import ContentArea from "./components/ContentArea/ContentArea";
 
 export default function WikiEditor() {
-  const { id } = useParams(); // /wiki/:id/edit
+  const { id, tocId } = useParams();
   const [wikiData, setWikiData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pages, setPages] = useState([]);
@@ -30,28 +31,39 @@ export default function WikiEditor() {
       .then((res) => res.json())
       .then((data) => {
         setWikiData(data);
-        setPages([
-          {
-            wikiId: data.wikiID,
-            tocId: data.tocID,
-            title: data.title,
-          },
-        ]);
+      });
+
+    fetch(`http://localhost:3001/api/pages/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setPages(data);
+
+        const currentPage = data.find((p) => String(p.tocID) === String(tocId));
+
+        if (currentPage && currentPage.content) {
+          try {
+            const parsed = JSON.parse(currentPage.content);
+            setPageContent(parsed.content || []);
+            setSections(parsed.sections || []);
+          } catch (err) {
+            console.error("❌ Fehler beim Parsen:", err);
+          }
+        }
+
         setLoading(false);
-        console.log("📘 Geladener Wiki-Artikel:", data);
       })
       .catch((err) => {
         console.error("Fehler beim Laden:", err);
         setLoading(false);
       });
-  }, [id]);
+  }, [id, tocId]);
 
   if (loading) return <div>Lade Wiki-Daten...</div>;
   if (!wikiData) return <div>Fehler beim Laden</div>;
-  if (pages.length === 0) return <div>Keine Seiten im Wiki vorhanden</div>;
 
-  const fullTitle = wikiData.firstPageTitle
-    ? `${wikiData.title} - ${wikiData.firstPageTitle}`
+  const currentPage = pages.find((p) => String(p.tocID) === String(tocId));
+  const fullTitle = currentPage
+    ? `${wikiData.title} - ${currentPage.title}`
     : wikiData.title;
 
   const components = [
@@ -183,7 +195,6 @@ export default function WikiEditor() {
   };
 
   const handleDelete = (id) => {
-    // Check if item is in main content
     const mainContentIndex = pageContent.findIndex((item) => item.id === id);
     if (mainContentIndex !== -1) {
       const newContent = [...pageContent];
@@ -192,7 +203,6 @@ export default function WikiEditor() {
       return;
     }
 
-    // Check if item is in a section
     setSections(
       sections.map((section) => {
         const sectionItemIndex = section.content.findIndex(
@@ -206,6 +216,28 @@ export default function WikiEditor() {
         return section;
       })
     );
+  };
+
+  const saveCurrentPage = () => {
+    const payload = {
+      content: pageContent,
+      sections: sections,
+    };
+
+    fetch(`http://localhost:3001/api/pages/${id}/${tocId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        console.log("✅ Seite gespeichert");
+      })
+      .catch((err) => {
+        console.error("❌ Fehler beim Speichern:", err);
+      });
   };
 
   return (
@@ -238,6 +270,20 @@ export default function WikiEditor() {
             }}
           >
             <TocIcon />
+          </IconButton>
+
+          <IconButton
+            onClick={saveCurrentPage}
+            sx={{
+              position: "fixed",
+              top: 200,
+              left: 20,
+              backgroundColor: "primary.main",
+              color: "white",
+              "&:hover": { backgroundColor: "primary.dark" },
+            }}
+          >
+            <SaveIcon />
           </IconButton>
 
           <ComponentDrawer

@@ -37,6 +37,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api/articles", articleRoutes);
+app.use("/api/pages", require("./routes/pages"));
 
 // Discord OAuth Setup
 passport.serializeUser((user, done) => done(null, user));

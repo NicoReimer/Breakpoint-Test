@@ -87,18 +87,6 @@ router.get("/category/:category", (req, res) => {
   });
 });
 
-router.get("/:wikiID", (req, res) => {
-  const { wikiID } = req.params;
-  const sql = "SELECT * FROM pages WHERE wikiID = ? ORDER BY tocID ASC";
-  db.query(sql, [wikiID], (err, results) => {
-    if (err) {
-      console.error("❌ Fehler beim Abrufen der Seiten:", err);
-      return res.status(500).json({ error: err });
-    }
-    res.json(results);
-  });
-});
-
 // Artikel erstellen
 
 const defaultImage = require("./defaultImage");
