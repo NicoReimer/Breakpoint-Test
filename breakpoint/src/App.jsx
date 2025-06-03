@@ -3,6 +3,7 @@ import Home from "./pages//Home";
 import Settings from "./pages/Settings";
 import SearchResults from "./pages/SearchResults";
 import NewWiki from "./pages/NewWiki";
+import WikiEditor from "./pages/WikiEditor/WikiEditor";
 import {
   Box,
   ThemeProvider,
@@ -42,6 +43,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/newWiki" element={<NewWiki />} />
+          <Route path="/wiki/:id/edit" element={<WikiEditor />} />
         </Routes>
       </Box>
     </ThemeProvider>
