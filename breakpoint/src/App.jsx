@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 import Navbar from "./components/Navbar";
+import CategoryPage from "./pages/CategoryPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -44,6 +45,8 @@ function App() {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/newWiki" element={<NewWiki />} />
           <Route path="/wiki/:id/edit" element={<WikiEditor />} />
+          <Route path="/category/:category" element={<CategoryPage />} />
+          <Route path="*" element={<div>404 – Seite nicht gefunden</div>} />
         </Routes>
       </Box>
     </ThemeProvider>
