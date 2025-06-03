@@ -18,6 +18,7 @@ export default function ContentArea({
   onAddSection,
   onSectionTitleChange,
   renderEditableComponent,
+  onDelete,
 }) {
   const [editingSection, setEditingSection] = useState(null);
 
@@ -52,6 +53,7 @@ export default function ContentArea({
                 item={item}
                 index={index}
                 renderEditableComponent={renderEditableComponent}
+                onDelete={onDelete}
               />
             ))}
             {provided.placeholder}
@@ -107,6 +109,7 @@ export default function ContentArea({
                     item={item}
                     index={index}
                     renderEditableComponent={renderEditableComponent}
+                    onDelete={onDelete}
                   />
                 ))}
                 {provided.placeholder}

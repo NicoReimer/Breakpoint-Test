@@ -182,6 +182,32 @@ export default function WikiEditor() {
     );
   };
 
+  const handleDelete = (id) => {
+    // Check if item is in main content
+    const mainContentIndex = pageContent.findIndex((item) => item.id === id);
+    if (mainContentIndex !== -1) {
+      const newContent = [...pageContent];
+      newContent.splice(mainContentIndex, 1);
+      setPageContent(newContent);
+      return;
+    }
+
+    // Check if item is in a section
+    setSections(
+      sections.map((section) => {
+        const sectionItemIndex = section.content.findIndex(
+          (item) => item.id === id
+        );
+        if (sectionItemIndex !== -1) {
+          const newContent = [...section.content];
+          newContent.splice(sectionItemIndex, 1);
+          return { ...section, content: newContent };
+        }
+        return section;
+      })
+    );
+  };
+
   return (
     <>
       <Toolbar />
@@ -230,6 +256,7 @@ export default function WikiEditor() {
             sections={sections}
             onAddSection={handleAddSection}
             onSectionTitleChange={handleSectionTitleChange}
+            onDelete={handleDelete}
             renderEditableComponent={renderEditableComponent}
           />
         </Container>

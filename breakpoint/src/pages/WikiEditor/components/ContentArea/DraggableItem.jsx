@@ -1,11 +1,13 @@
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { Draggable } from "@hello-pangea/dnd";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function DraggableItem({
   item,
   index,
   renderEditableComponent,
+  onDelete,
 }) {
   return (
     <Draggable draggableId={item.id} index={index}>
@@ -28,7 +30,7 @@ export default function DraggableItem({
               },
             },
             "&:hover": {
-              "& .resize-handle": {
+              "& .resize-handle, & .delete-button": {
                 opacity: 1,
               },
             },
@@ -40,6 +42,27 @@ export default function DraggableItem({
             }),
           }}
         >
+          {/* Delete Button */}
+          <IconButton
+            className="delete-button"
+            onClick={() => onDelete(item.id)}
+            sx={{
+              position: "absolute",
+              top: -20,
+              right: -20,
+              opacity: 0,
+              transition: "opacity 0.2s",
+              backgroundColor: "error.main",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "error.dark",
+              },
+              zIndex: 1,
+            }}
+          >
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+
           <Box sx={{ position: "relative" }}>
             {renderEditableComponent(item)}
             {/* Resize Handle */}
