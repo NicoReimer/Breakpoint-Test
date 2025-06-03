@@ -4,6 +4,7 @@ import Settings from "./pages/Settings";
 import SearchResults from "./pages/SearchResults";
 import NewWiki from "./pages/NewWiki";
 import WikiEditor from "./pages/WikiEditor/WikiEditor";
+import WikiView from "./pages/WikiView/WikiView";
 import {
   Box,
   ThemeProvider,
@@ -46,6 +47,7 @@ function App() {
           <Route path="/newWiki" element={<NewWiki />} />
           <Route path="/wiki/:id/edit" element={<WikiEditor />} />
           <Route path="/category/:category" element={<CategoryPage />} />
+          <Route path="/wiki/:id" element={<WikiView />} />
           <Route path="*" element={<div>404 – Seite nicht gefunden</div>} />
         </Routes>
       </Box>
