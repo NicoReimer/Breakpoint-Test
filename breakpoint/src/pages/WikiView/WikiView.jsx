@@ -37,10 +37,7 @@ export default function WikiView() {
               parsedContent = JSON.parse(page.content);
             }
           } catch (err) {
-            console.error(
-              `❌ Fehler beim Parsen der Seite "${page.title}"`,
-              err
-            );
+            console.error(`❌ Fehler beim Parsen der Seite "${page.title}"`, err);
           }
 
           return {
@@ -56,7 +53,18 @@ export default function WikiView() {
         console.error("Fehler beim Laden:", err);
         setLoading(false);
       });
+
+    // 📈 View-Zähler erhöhen
+    fetch(`http://localhost:3001/api/articles/${id}/view`, {
+      method: "POST",
+    }).catch((err) =>
+      console.error("❌ Fehler beim Erhöhen der Views:", err)
+    );
   }, [id]);
+
+  const isValidImage = (src) =>
+    typeof src === "string" &&
+    (src.startsWith("data:image/") || src.startsWith("http://") || src.startsWith("https://"));
 
   const renderComponent = (item) => {
     switch (item.type) {
@@ -67,33 +75,50 @@ export default function WikiView() {
           </Typography>
         );
       case "image":
-        return (
-          <Box sx={{ mb: 2 }}>
-            <img
-              src={typeof item.content === "string" ? item.content : ""}
-              alt="Bild"
-              style={{ maxWidth: "100%", borderRadius: "8px" }}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "";
-                e.target.alt = "❌ Ungültige Bild-URL";
-              }}
-            />
-            {typeof item.content !== "string" && (
-              <Typography sx={{ color: "red" }}>
-                ❌ Ungültige Bild-URL
-              </Typography>
-            )}
-          </Box>
-        );
+  let imageUrl = "";
+  let imageWidth = "100%";
+
+  try {
+    // Wenn content ein JSON-String ist, parsen
+    if (typeof item.content === "string" && item.content.startsWith("{")) {
+      const parsed = JSON.parse(item.content);
+      imageUrl = parsed.url || "";
+      imageWidth = parsed.width || "100%";
+    } else if (typeof item.content === "string") {
+      imageUrl = item.content;
+    }
+  } catch (err) {
+    console.error("❌ Fehler beim Parsen von Bild-Content:", err);
+  }
+
+  return (
+    <Box sx={{ mb: 2 }}>
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt="Wiki Bild"
+          style={{ maxWidth: imageWidth, borderRadius: "8px" }}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "/fallback.png";
+            e.target.alt = "❌ Bild konnte nicht geladen werden";
+          }}
+        />
+      ) : (
+        <Typography sx={{ color: "red" }}>
+          ❌ Kein gültiger Bildinhalt
+        </Typography>
+      )}
+    </Box>
+  );
 
       case "table":
         try {
           const rows = Array.isArray(item.content)
             ? item.content
             : item.content?.rows
-            ? item.content.cells
-            : JSON.parse(item.content);
+              ? item.content.cells
+              : JSON.parse(item.content);
           return (
             <Box
               component="table"

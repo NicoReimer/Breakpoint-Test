@@ -34,6 +34,23 @@ router.get("/", (req, res) => {
   }
 });
 
+// Beliebteste Wikis (Top 8 nach Views)
+router.get("/popular", (req, res) => {
+  const sql = "SELECT id, title, image_url AS image, views FROM articles ORDER BY views DESC LIMIT 8";
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Fehler bei /popular:", err);
+      return res.status(500).json({ error: "Serverfehler" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Keine Artikel gefunden." });
+    }
+
+    res.json(results);
+  });
+});
+
 // Artikel + erste Seite abrufen
 router.get("/:id", (req, res) => {
   const { id } = req.params;
@@ -86,6 +103,7 @@ router.get("/category/:category", (req, res) => {
     res.json(results);
   });
 });
+
 
 // Artikel erstellen
 

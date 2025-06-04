@@ -8,46 +8,18 @@ import {
 } from "@mui/material";
 import WikiCard from "../components/WikiCard";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const popularWikis = [
-    {
-      title: "Minecraft",
-      image:
-        "https://www.kleinmachnow.de/media/custom/999_12711_1_g.JPG?1637243080",
-      views: "19k",
-    },
-    {
-      title: "Terraria",
-      image: "https://photos99.ru/photo/28/63/286325483/286325483_2048.jpg",
-      views: "19k",
-    },
-    {
-      title: "Marvel",
-      image:
-        "https://storage.de.cloud.ovh.net/v1/AUTH_97856089b0cd40beace6493b15fd316e/teachinomedia/ai_images/quiz-game-geography-sek1-fluesse-rhein-ursprung-und-verlauf.jpeg",
-      views: "19k",
-    },
-    {
-      title: "Marvel",
-      image:
-        "https://storage.de.cloud.ovh.net/v1/AUTH_97856089b0cd40beace6493b15fd316e/teachinomedia/ai_images/quiz-game-geography-sek1-fluesse-rhein-ursprung-und-verlauf.jpeg",
-      views: "19k",
-    },
-    {
-      title: "Marvel",
-      image:
-        "https://storage.de.cloud.ovh.net/v1/AUTH_97856089b0cd40beace6493b15fd316e/teachinomedia/ai_images/quiz-game-geography-sek1-fluesse-rhein-ursprung-und-verlauf.jpeg",
-      views: "19k",
-    },
-    {
-      title: "Marvel",
-      image:
-        "https://storage.de.cloud.ovh.net/v1/AUTH_97856089b0cd40beace6493b15fd316e/teachinomedia/ai_images/quiz-game-geography-sek1-fluesse-rhein-ursprung-und-verlauf.jpeg",
-      views: "19k",
-    },
-  ];
+  const [popularWikis, setPopularWikis] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("http://localhost:3001/api/articles/popular")
+      .then((res) => res.json())
+      .then((data) => setPopularWikis(data))
+      .catch((err) => console.error("❌ Fehler beim Laden der Wikis:", err));
+  }, []);
 
   return (
     <Container sx={{ mt: 6 }}>
@@ -55,7 +27,7 @@ export default function Home() {
         <Typography variant="h3" gutterBottom>
           Willkommen auf der Startseite 🎉
         </Typography>
-        <Typography variant="body1">Breakpoint.</Typography>
+        <Typography variant="body1">Hier könnte ihre Werbung stehen!</Typography>
       </Paper>
 
       <Typography variant="h3" sx={{ mt: 8, mb: 4, textAlign: "center" }}>
@@ -160,24 +132,32 @@ export default function Home() {
         </Paper>
       </Stack>
       <Divider sx={{ mt: 8, mb: 6 }} />
-      <Typography variant="h3">Beliebte Wikies</Typography>
+      <Typography variant="h3">Beliebte Wikis</Typography>
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)", // Creates 4 equal columns
+          gridTemplateColumns: "repeat(4, 1fr)",
           gap: 3,
           mt: 2,
           mb: 8,
         }}
       >
-        {popularWikis.map((wiki, index) => (
-          <WikiCard
-            key={index}
-            title={wiki.title}
-            image={wiki.image}
-            views={wiki.views}
-          />
-        ))}
+{popularWikis.length > 0 ? (
+  popularWikis.map((wiki, index) => (
+    <WikiCard
+      key={index}
+      id={wiki.id || 0}
+      title={wiki.title || "Unbenannt"}
+      image={wiki.image || "https://via.placeholder.com/300x200?text=No+Image"}
+      views={wiki.views || "0"}
+    />
+  ))
+) : (
+  <Typography variant="body1" sx={{ mt: 2 }}>
+    Keine Wikis gefunden.
+  </Typography>
+)}
+
       </Box>
     </Container>
   );

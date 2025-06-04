@@ -62,7 +62,7 @@ export default function NewWiki() {
 
       const data = await response.json();
       console.log("Artikel erstellt mit ID:", data.id);
-      navigate(`/wiki/${data.id}/edit`);
+      navigate(`/wiki/${data.id}/edit/0`);
     } catch (error) {
       console.error("Fehler beim Senden:", error);
     }

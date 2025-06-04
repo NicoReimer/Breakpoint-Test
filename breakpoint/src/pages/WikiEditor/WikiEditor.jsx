@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Container, IconButton, Toolbar } from "@mui/material";
 import { DragDropContext } from "@hello-pangea/dnd";
@@ -18,6 +18,7 @@ import ContentArea from "./components/ContentArea/ContentArea";
 
 export default function WikiEditor() {
   const { id, tocId } = useParams();
+  const navigate = useNavigate();
   const [wikiData, setWikiData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pages, setPages] = useState([]);
@@ -234,6 +235,7 @@ export default function WikiEditor() {
       .then((res) => res.json())
       .then(() => {
         console.log("✅ Seite gespeichert");
+        navigate(`/wiki/${id}`);
       })
       .catch((err) => {
         console.error("❌ Fehler beim Speichern:", err);
