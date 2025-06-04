@@ -55,7 +55,7 @@ export default function Home() {
         <Typography variant="h3" gutterBottom>
           Willkommen auf der Startseite 🎉
         </Typography>
-        <Typography variant="body1">Breakpoint.</Typography>
+        <Typography variant="body1">Hier könnte ihre Werbung stehen!</Typography>
       </Paper>
 
       <Typography variant="h3" sx={{ mt: 8, mb: 4, textAlign: "center" }}>
@@ -160,7 +160,7 @@ export default function Home() {
         </Paper>
       </Stack>
       <Divider sx={{ mt: 8, mb: 6 }} />
-      <Typography variant="h3">Beliebte Wikies</Typography>
+      <Typography variant="h3">Beliebte Wikis</Typography>
       <Box
         sx={{
           display: "grid",
