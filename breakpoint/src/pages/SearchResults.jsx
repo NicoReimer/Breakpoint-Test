@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { Container, Typography, Box } from "@mui/material";
+import WikiCard from "../components/WikiCard";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -14,9 +16,7 @@ export default function SearchResults() {
     if (query) {
       axios
         .get(
-          `${
-            import.meta.env.VITE_API_URL
-          }/api/articles?search=${encodeURIComponent(query)}`
+          `${import.meta.env.VITE_API_URL}/api/articles?search=${encodeURIComponent(query)}`
         )
         .then((res) => setResults(res.data))
         .catch((err) => console.error(err));
@@ -24,19 +24,33 @@ export default function SearchResults() {
   }, [query]);
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>
+    <Container sx={{ mt: 6 }}>
+      <Typography variant="h3" gutterBottom>
         Suchergebnisse für: <em>{query}</em>
-      </h2>
+      </Typography>
+
       {results.length === 0 ? (
-        <p>Keine Artikel gefunden.</p>
+        <Typography>Keine Artikel gefunden.</Typography>
       ) : (
-        <ul>
-          {results.map((article) => (
-            <li key={article.id}>{article.title}</li>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 3,
+            mt: 2,
+          }}
+        >
+          {results.map((wiki, index) => (
+            <WikiCard
+              key={index}
+              id={wiki.id}
+              title={wiki.title}
+              image={wiki.image_url}
+              views={wiki.views}
+            />
           ))}
-        </ul>
+        </Box>
       )}
-    </div>
+    </Container>
   );
 }

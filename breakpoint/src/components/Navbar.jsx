@@ -85,15 +85,6 @@ export default function Navbar() {
         </Box>
 
         <Stack direction="row" spacing={2} alignItems="center">
-          <Button color="inherit" href="/">
-            CharSheet
-          </Button>
-          <Button color="inherit" href="/">
-            Test
-          </Button>
-          <Button color="inherit" href="/">
-            Quests
-          </Button>
 
           <TextField
             size="small"

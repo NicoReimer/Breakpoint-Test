@@ -30,6 +30,7 @@ export default function CategoryPage() {
         {wikis.map((wiki, index) => (
           <WikiCard
             key={index}
+            id={wiki.id}
             title={wiki.title}
             image={wiki.image}
             views={wiki.views}
