@@ -116,7 +116,7 @@ router.post("/", (req, res) => {
     return res.status(400).json({ error: "Title ist ein Pflichtfeld." });
   }
 
-  const finalImageUrl = image_url || defaultImage;
+  const finalImageUrl = image_url && image_url.trim() !== "" ? image_url : defaultImage;
 
   const sql =
     "INSERT INTO articles (title, author_id, category, image_url, description, views) VALUES (?, ?, ?, ?, ?, 0)";

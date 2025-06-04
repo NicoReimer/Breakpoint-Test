@@ -50,7 +50,7 @@ export default function NewWiki() {
           author_id: user.id,
           category: formData.category,
           description: formData.description,
-          // image_url: undefined
+          image_url: "", // wichtig für defaultImage!
         }),
       });
 
