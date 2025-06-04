@@ -77,6 +77,11 @@ export default function Home() {
             width: "200px",
             textAlign: "center",
             borderRadius: 2,
+            border: "2px solid transparent",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              borderColor: "primary.main",
+            },
           }}
         >
           <Stack direction="column" spacing={1}>
@@ -95,6 +100,11 @@ export default function Home() {
             width: "200px",
             textAlign: "center",
             borderRadius: 2,
+            border: "2px solid transparent",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              borderColor: "primary.main",
+            },
           }}
         >
           <Stack direction="column" spacing={1}>
@@ -113,6 +123,11 @@ export default function Home() {
             width: "200px",
             textAlign: "center",
             borderRadius: 2,
+            border: "2px solid transparent",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              borderColor: "primary.main",
+            },
           }}
         >
           <Stack direction="column" spacing={1}>
@@ -131,6 +146,11 @@ export default function Home() {
             width: "200px",
             textAlign: "center",
             borderRadius: 2,
+            border: "2px solid transparent",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              borderColor: "primary.main",
+            },
           }}
         >
           <Stack direction="column" spacing={1}>
